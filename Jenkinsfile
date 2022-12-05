@@ -10,7 +10,6 @@ pipeline {
 				withGradle {
 					bat './gradlew compileJava'
 				}
-// 				bat 'gradle compileJava'
 			}
 		}
 
@@ -18,26 +17,19 @@ pipeline {
 			steps {
 				echo 'Running UI Tests...'
 				script {
-					try {
-						withGradle {
-							bat './gradlew test'
-						}
-// 						bat 'gradle test'
-					} finally {
-						echo 'Posting Results...'
-						junit '**/target/cucumber-report.xml'
+					withGradle {
+						bat './gradlew test'
 					}
 				}
 			}
 		}
 
-		stage('Clean Build') {
-			steps {
-				echo 'Cleaning last build...'
-				withGradle {
-					bat './gradlew clean'
+		stage('Post Results') {
+			post {
+				echo 'Posting Results...'
+				always {
+					junit 'build\reports\tests\test\packages\*.xml'
 				}
-// 				bat 'gradle clean'
 			}
 		}
 	}
