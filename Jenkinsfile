@@ -28,7 +28,7 @@ pipeline {
 	post {
 		always {
 			echo 'Posting Results...'
-			junit '**/test-results/test/*.xml'
+			junit '**/test-results/test/TEST-*.xml'
 		}
 	}
 }
