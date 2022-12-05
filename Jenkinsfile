@@ -26,8 +26,8 @@ pipeline {
 
 		stage('Post Results') {
 			post {
-				echo 'Posting Results...'
 				always {
+					echo 'Posting Results...'
 					junit '**/build/reports/tests/test/classes/*.xml'
 				}
 			}
