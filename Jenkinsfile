@@ -7,7 +7,7 @@ pipeline {
 				echo 'Checking out repository...'
 				checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jepManalo/CompanyGradleBuild']]])
 				echo 'Compiling source code...'
-				bat 'gradle compile'
+				bat 'gradle compileJava'
 			}
 		}
 
