@@ -7,7 +7,10 @@ pipeline {
 				echo 'Checking out repository...'
 				checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jepManalo/CompanyGradleBuild']]])
 				echo 'Compiling source code...'
-				bat 'gradle compileJava'
+				withGradle {
+					bat './gradlew compileJava'
+				}
+// 				bat 'gradle compileJava'
 			}
 		}
 
@@ -16,10 +19,13 @@ pipeline {
 				echo 'Running UI Tests...'
 				script {
 					try {
-						bat 'gradle test'
+						withGradle {
+							bat './gradlew test'
+						}
+// 						bat 'gradle test'
 					} finally {
 						echo 'Posting Results...'
-						junit '**/build/test-results/test/*.xml'
+						junit '**/target/cucumber-report.xml'
 					}
 				}
 			}
@@ -28,7 +34,10 @@ pipeline {
 		stage('Clean Build') {
 			steps {
 				echo 'Cleaning last build...'
-				bat 'gradle clean'
+				withGradle {
+					bat './gradlew clean'
+				}
+// 				bat 'gradle clean'
 			}
 		}
 	}
