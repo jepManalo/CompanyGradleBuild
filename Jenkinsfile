@@ -23,14 +23,12 @@ pipeline {
 				}
 			}
 		}
-
-		stage('Post Results') {
-			post {
-				always {
-					echo 'Posting Results...'
-					junit '**/build/reports/tests/test/classes/*.xml'
-				}
-			}
+	}
+	
+	post {
+		always {
+			echo 'Posting Results...'
+			junit '**/build/reports/tests/test/classes/*.xml'
 		}
 	}
 }
